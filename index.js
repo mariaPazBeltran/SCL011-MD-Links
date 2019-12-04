@@ -6,6 +6,19 @@ const fs = require('fs')
 
 console.log("¡FUNCIONAAA!")
 
+/*comprobando si el formato de los archivos es md */
+const checkingMdFormat = (path =>{
+
+  if(path.slice(-3)== '.md'){
+    console.log(path)
+    return true;
+  }else {
+    console.log(Error)
+    return false;
+  }
+})
+
+/*Lector de archivos*/
 const readerMd = (path) =>{
   return new Promise((resolve, reject) => {
     fs.readFile(path , 'utf-8', (err, data) => {
@@ -18,7 +31,10 @@ const readerMd = (path) =>{
   });
 }
 console.log("Please!!!")
+
 readerMd('./README.md');
+checkingMdFormat('./README.md')
+
 module.exports = () => {
  
 };
