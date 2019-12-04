@@ -1,7 +1,8 @@
 const path = require('path')
 const fs = require('fs')
+const marked = require('marked');
 //const mdLinks = require("...");
-//const marked = require('marked');
+
 //const fetch = require('node-fetch');
 
 console.log("¡FUNCIONAAA!")
@@ -30,10 +31,45 @@ const readerMd = (path) =>{
     })
   });
 }
+
+const extractingLinks = (() =>{
+  return new Promise((resolve, reject) =>{
+  readerMd()
+  .then(data =>{
+    let links = [];  
+    let renderer = new marked.Renderer();
+    
+    renderer.link= function(href, title, text) {
+        links.push(
+          {href: href,
+          text: text,
+          file: path,
+          });
+    };
+    marked(data, { renderer: renderer });
+   if (links.length === 0) {
+      reject(new Error("El archivo no contiene links"))
+  } 
+    resolve(links)
+    console.log(links)
+  })
+  .catch(err =>{
+   reject (console.log(err));
+    
+  })
+  })
+  })
+  
+
+  
+
+
+
 console.log("Please!!!")
 
-readerMd('./README.md');
+//readerMd('./README.md');
 checkingMdFormat('./README.md')
+extractingLinks('./README.md')
 
 module.exports = () => {
  
